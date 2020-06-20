@@ -10,10 +10,15 @@ void ExitBuiltin::deregisterCommand()
 {
 }
 
-int ExitBuiltin::commandInvocation(std::vector<std::string> arguments)
+int ExitBuiltin::commandInvocation(std::vector<std::string> arguments, ExecutionContext ctx)
 {
-  // TODO: Get context if running in script or REPL.
-  REPL::getInstance()->endREPL();
+  if (ctx == ExecutionContext::REPL) {
+    REPL::getInstance()->endREPL();
+  }
+  else {
+    // TODO:
+    return 0;
+  }
 
   return 0;
 }
