@@ -14,7 +14,7 @@ private:
 
   BuiltinHandler();
   ~BuiltinHandler();
-  void loadBuiltin(std::string cmd, IBuiltin* impl);
+  void loadBuiltin(std::string cmd, IBuiltin *impl);
 
 public:
   static BuiltinHandler *getInstance();
