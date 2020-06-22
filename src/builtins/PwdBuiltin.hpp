@@ -1,9 +1,9 @@
-#ifndef DM_JOSH_EXIT_BUILTIN_HPP_
-#define DM_JOSH_EXIT_BUILTIN_HPP_
+#ifndef DM_JOSH_PWD_BUILTIN_HPP_
+#define DM_JOSH_PWD_BUILTIN_HPP_
 
 #include "IBuiltin.hpp"
 
-class ExitBuiltin : public IBuiltin
+class PwdBuiltin : public IBuiltin
 {
 public:
   void registerCommand();

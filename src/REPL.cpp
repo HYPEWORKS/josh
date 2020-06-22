@@ -5,6 +5,8 @@
 #include <string>
 // </TODO>
 
+#include "BuiltinHandler.hpp"
+
 REPL *REPL::__instance = nullptr;
 
 REPL::REPL()
@@ -31,16 +33,24 @@ void REPL::startREPL()
 
 void REPL::loop()
 {
-  while(this->running)
+  while (this->running)
   {
     std::string cmd;
 
-    std::cout << "$ ";
+    std::cout << std::endl << "$ ";
     std::getline(std::cin, cmd);
 
-    // TODO: Not do this.
-    if (cmd.compare("exit") == 0) {
-      this->endREPL();
+    // TODO: Parse command string first before doing this.
+    auto builtinCmd = BuiltinHandler::getInstance()->lookupCommand(cmd);
+    if (!builtinCmd)
+    {
+      std::cout << "Command not found -> " << cmd << std::endl;
+      continue;
+    }
+    else
+    {
+      // TODO: Pass in parsed out arguments.
+      builtinCmd->commandInvocation(std::vector<std::string>(), ExecutionContext::REPL);
     }
   }
 }

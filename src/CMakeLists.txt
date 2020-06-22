@@ -10,6 +10,8 @@ add_executable(
   builtins/IBuiltin.hpp
   builtins/ExitBuiltin.hpp
   builtins/ExitBuiltin.cpp
+  builtins/PwdBuiltin.hpp
+  builtins/PwdBuiltin.cpp
 
   BuiltinHandler.hpp
   BuiltinHandler.cpp

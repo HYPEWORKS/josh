@@ -3,6 +3,7 @@
 #include <algorithm>
 
 #include "builtins/ExitBuiltin.hpp"
+#include "builtins/PwdBuiltin.hpp"
 
 BuiltinHandler *BuiltinHandler::__instance = nullptr;
 
@@ -45,5 +46,26 @@ void BuiltinHandler::loadBuiltin(std::string cmd, IBuiltin *impl)
 
 void BuiltinHandler::loadBuiltins()
 {
+  // TODO: Is this the best place to statically initialize our builtins?
   this->loadBuiltin("exit", new ExitBuiltin());
+  this->loadBuiltin("pwd", new PwdBuiltin());
+}
+
+void BuiltinHandler::init()
+{
+  this->loadBuiltins();
+}
+
+IBuiltin *BuiltinHandler::lookupCommand(std::string cmd)
+{
+  size_t count = this->builtinsMap.count(cmd);
+
+  if (count == 0)
+  {
+    return nullptr;
+  }
+  else
+  {
+    return this->builtinsMap[cmd];
+  }
 }

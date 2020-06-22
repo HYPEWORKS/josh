@@ -15,11 +15,14 @@ private:
   BuiltinHandler();
   ~BuiltinHandler();
   void loadBuiltin(std::string cmd, IBuiltin *impl);
+  void loadBuiltins();
 
 public:
   static BuiltinHandler *getInstance();
 
-  void loadBuiltins();
+  void init();
+
+  IBuiltin *lookupCommand(std::string cmd);
 };
 
 #endif
