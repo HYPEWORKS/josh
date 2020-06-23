@@ -12,6 +12,8 @@ add_executable(
   builtins/ExitBuiltin.cpp
   builtins/PwdBuiltin.hpp
   builtins/PwdBuiltin.cpp
+  builtins/CdBuiltin.hpp
+  builtins/CdBuiltin.cpp
 
   BuiltinHandler.hpp
   BuiltinHandler.cpp

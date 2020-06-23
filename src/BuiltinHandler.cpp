@@ -4,6 +4,7 @@
 
 #include "builtins/ExitBuiltin.hpp"
 #include "builtins/PwdBuiltin.hpp"
+#include "builtins/CdBuiltin.hpp"
 
 BuiltinHandler *BuiltinHandler::__instance = nullptr;
 
@@ -49,6 +50,7 @@ void BuiltinHandler::loadBuiltins()
   // TODO: Is this the best place to statically initialize our builtins?
   this->loadBuiltin("exit", new ExitBuiltin());
   this->loadBuiltin("pwd", new PwdBuiltin());
+  this->loadBuiltin("cd", new CdBuiltin());
 }
 
 void BuiltinHandler::init()
