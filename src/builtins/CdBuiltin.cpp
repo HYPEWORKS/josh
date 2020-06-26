@@ -28,9 +28,10 @@ int CdBuiltin::commandInvocation(std::vector<std::string> arguments, ExecutionCo
   auto dest = arguments[0];
 
   // TODO: Handle ~user as well.
-  if (dest[0] == '~') {
+  if (dest[0] == '~')
+  {
     chdir(getenv("HOME"));
-    
+
     return 0;
   }
 

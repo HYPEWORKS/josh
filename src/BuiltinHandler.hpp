@@ -5,6 +5,7 @@
 
 #include <map>
 #include <string>
+#include <vector>
 
 class BuiltinHandler
 {
@@ -23,6 +24,7 @@ public:
   void init();
 
   IBuiltin *lookupCommand(std::string cmd);
+  std::vector<std::string> getListOfCommands() const;
 };
 
 #endif

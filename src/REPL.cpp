@@ -5,6 +5,9 @@
 #include <string>
 // </TODO>
 
+#include <ctype.h>
+#include <algorithm>
+
 #include "BuiltinHandler.hpp"
 
 REPL *REPL::__instance = nullptr;
@@ -48,6 +51,13 @@ static inline void rtrim(std::string &s)
           s.end());
 }
 
+void remove_extra_whitespaces(const std::string &input, std::string &output)
+{
+  output.clear(); // unless you want to add at the end of existing sring...
+  std::unique_copy(input.begin(), input.end(), std::back_insert_iterator<std::string>(output),
+                   [](char a, char b) { return isspace(a) && isspace(b); });
+}
+
 void REPL::loop()
 {
   while (this->running)
@@ -59,8 +69,11 @@ void REPL::loop()
     std::getline(std::cin, line);
 
     // TEMPORARY CODE UNTIL WE RE-IMPLEMENT READLINE
+    std::string tempLine;
     ltrim(line);
     rtrim(line);
+    remove_extra_whitespaces(line, tempLine);
+    line = tempLine;
 
     std::string cmd;
     std::vector<std::string> arguments;
@@ -72,7 +85,7 @@ void REPL::loop()
     size_t endPos = 0;
     for (size_t i = 0; i < line.size(); ++i)
     {
-      if (line[i] == ' ' || i == line.size() - 1)
+      if (isspace(line[i]) || i == line.size() - 1)
       {
         if (i == line.size() - 1)
         {
