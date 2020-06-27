@@ -5,6 +5,7 @@
 
 // TODO: Create compat layer for non POSIX systems
 #include <unistd.h>
+#include <string.h>
 
 void CdBuiltin::registerCommand()
 {
@@ -38,6 +39,7 @@ int CdBuiltin::commandInvocation(std::vector<std::string> arguments, ExecutionCo
   if (chdir(dest.c_str()) != 0)
   {
     std::cout << "Could not navigate to -> " << dest << std::endl;
+    std::cout << strerror(errno) << std::endl;
 
     return 1;
   }
