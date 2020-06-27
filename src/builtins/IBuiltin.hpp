@@ -10,11 +10,17 @@
 
 class IBuiltin
 {
+private:
+  std::string description;
+
 public:
   virtual void registerCommand() = 0;
   virtual void deregisterCommand() = 0;
 
   virtual int commandInvocation(std::vector<std::string> arguments, ExecutionContext ctx) = 0;
+
+  void setCommandDescription(std::string desc) { this->description = desc; }
+  std::string getCommandDescription() { return this->description; }
 };
 
 #endif

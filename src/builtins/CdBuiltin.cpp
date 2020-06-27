@@ -9,6 +9,7 @@
 
 void CdBuiltin::registerCommand()
 {
+  this->setCommandDescription("Changes directory to the specified directory.");
 }
 
 void CdBuiltin::deregisterCommand()

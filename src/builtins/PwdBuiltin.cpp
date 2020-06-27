@@ -9,6 +9,7 @@
 
 void PwdBuiltin::registerCommand()
 {
+  this->setCommandDescription("Presents the current working directory to stdout.");
 }
 
 void PwdBuiltin::deregisterCommand()

@@ -6,6 +6,7 @@
 
 void HelpBuiltin::registerCommand()
 {
+  this->setCommandDescription("Displays some helpful info about stuff");
 }
 
 void HelpBuiltin::deregisterCommand()
@@ -14,11 +15,29 @@ void HelpBuiltin::deregisterCommand()
 
 int HelpBuiltin::commandInvocation(std::vector<std::string> arguments, ExecutionContext ctx)
 {
-  // TODO: provide better help than this
-  std::cout << "You don't need no stinkin' help! :^)\n" << std::endl;
+  auto cmdList = BuiltinHandler::getInstance()->getListOfCommands();
+
+  if (arguments.size() == 1)
+  {
+    auto cmd = BuiltinHandler::getInstance()->lookupCommand(arguments[0]);
+
+    if (!cmd)
+    {
+      std::cout << "Unable to get help for " << arguments[0] << std::endl;
+
+      return 1;
+    }
+    else
+    {
+      // TODO: Fetch "rich" help for the command.
+      std::cout << cmd->getCommandDescription() << "\n" << std::endl;
+      
+      return 0;
+    }
+  }
 
   std::cout << "Here's a list of built-in functions:\n";
-  for (std::string cmd : BuiltinHandler::getInstance()->getListOfCommands())
+  for (std::string cmd : cmdList)
   {
     std::cout << "\t* " << cmd << std::endl;
   }

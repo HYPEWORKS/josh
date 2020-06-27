@@ -4,6 +4,7 @@
 
 void ExitBuiltin::registerCommand()
 {
+  this->setCommandDescription("Exits the shell or terminates execution of a script");
 }
 
 void ExitBuiltin::deregisterCommand()
