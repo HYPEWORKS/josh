@@ -13,10 +13,12 @@ void ExitBuiltin::deregisterCommand()
 
 int ExitBuiltin::commandInvocation(std::vector<std::string> arguments, ExecutionContext ctx)
 {
-  if (ctx == ExecutionContext::REPL) {
+  if (ctx == ExecutionContext::REPL)
+  {
     REPL::getInstance()->endREPL();
   }
-  else {
+  else
+  {
     // TODO:
     return 0;
   }

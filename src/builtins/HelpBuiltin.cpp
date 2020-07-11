@@ -30,8 +30,9 @@ int HelpBuiltin::commandInvocation(std::vector<std::string> arguments, Execution
     else
     {
       // TODO: Fetch "rich" help for the command.
-      std::cout << cmd->getCommandDescription() << "\n" << std::endl;
-      
+      std::cout << cmd->getCommandDescription() << "\n"
+                << std::endl;
+
       return 0;
     }
   }

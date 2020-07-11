@@ -30,6 +30,6 @@ int PwdBuiltin::commandInvocation(std::vector<std::string> arguments, ExecutionC
   std::cout << ptr << std::endl;
 
   free(ptr);
-  
+
   return 0;
 }
