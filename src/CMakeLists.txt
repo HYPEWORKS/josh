@@ -20,7 +20,11 @@ add_executable(
   BuiltinHandler.hpp
   BuiltinHandler.cpp
 
+  History.hpp
+  History.cpp
+
   REPL.hpp
   REPL.cpp
+  
   Main.cpp
 )

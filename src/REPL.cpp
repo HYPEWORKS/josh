@@ -9,12 +9,15 @@
 #include <algorithm>
 
 #include "BuiltinHandler.hpp"
+#include "History.hpp"
 
 REPL *REPL::__instance = nullptr;
 
 REPL::REPL()
 {
   this->running = false;
+
+  History::getInstance()->init();
 }
 
 REPL *REPL::getInstance()
