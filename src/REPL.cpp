@@ -17,7 +17,12 @@ REPL::REPL()
 {
   this->running = false;
 
-  History::getInstance()->init();
+  if (!History::getInstance()->init())
+  {
+    // if we fail to create history -- then what?
+
+    throw std::exception();
+  }
 }
 
 REPL *REPL::getInstance()
@@ -54,6 +59,7 @@ static inline void rtrim(std::string &s)
           s.end());
 }
 
+// TODO: Ignore extra whitespace if wrapped in string ' "
 void remove_extra_whitespaces(const std::string &input, std::string &output)
 {
   output.clear(); // unless you want to add at the end of existing sring...
@@ -77,6 +83,15 @@ void REPL::loop()
     rtrim(line);
     remove_extra_whitespaces(line, tempLine);
     line = tempLine;
+
+    // If blank line, just continue....
+    if (line == "")
+    {
+      continue;
+    }
+
+    // Put into history.
+    History::getInstance()->emplace(line);
 
     std::string cmd;
     std::vector<std::string> arguments;

@@ -2,16 +2,21 @@
 #define DM_JOSH_HISTORY_HPP_
 
 #include <vector>
+#include <string>
 
 class History
 {
 private:
   static History *__instance;
+  std::string file;
+  History();
 
 public:
   static History *getInstance();
 
-  void init();
+  bool init();
+
+  void emplace(std::string line);
 };
 
 #endif
