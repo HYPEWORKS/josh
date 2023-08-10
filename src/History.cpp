@@ -6,7 +6,6 @@
 #include <filesystem>
 #include <iostream>
 
-#include <unistd.h>
 #include <stdlib.h>
 
 History *History::__instance = nullptr;
@@ -15,7 +14,13 @@ History::History()
 {
   std::stringstream historyFilePathBuilder;
 
-  historyFilePathBuilder << getenv("HOME") << "/.josh_history";
+#if defined(_WIN32) || defined(_WIN64)
+  const char *home = getenv("USERPROFILE");
+#else
+  const char *home = getenv("HOME");
+#endif
+
+  historyFilePathBuilder << home << "/.josh_history";
 
   this->file = historyFilePathBuilder.str();
 }

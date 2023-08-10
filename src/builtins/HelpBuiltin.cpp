@@ -29,6 +29,12 @@ int HelpBuiltin::commandInvocation(std::vector<std::string> arguments, Execution
     }
     else
     {
+        if (cmd == this)
+		{
+            // yo dawg, I heard you like help
+			std::cout << "yo dawg" << std::endl;
+			return 0;
+		}
       // TODO: Fetch "rich" help for the command.
       std::cout << cmd->getCommandDescription() << "\n"
                 << std::endl;
