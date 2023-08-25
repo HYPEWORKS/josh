@@ -129,6 +129,9 @@ void REPL::loop()
       }
     }
 
+    auto executionContext = ExecutionContext();
+    executionContext.type = ExecutionContextType::REPL;
+
     // TODO: Parse command string first before doing this.
     auto builtinCmd = BuiltinHandler::getInstance()->lookupCommand(cmd);
     if (!builtinCmd)
@@ -139,7 +142,7 @@ void REPL::loop()
     }
     else
     {
-      builtinCmd->commandInvocation(arguments, ExecutionContext::REPL);
+      builtinCmd->commandInvocation(arguments, executionContext);
     }
   }
 }

@@ -1,7 +1,7 @@
 #ifndef DM_JOSH_EXECUTION_CONTEXT_HPP_
 #define DM_JOSH_EXECUTION_CONTEXT_HPP_
 
-enum class ExecutionContext : char
+enum class ExecutionContextType : char
 {
   // If we're at the prompt.
   REPL = 0,
@@ -12,5 +12,10 @@ enum class ExecutionContext : char
   // If we're running in a forked instance.
   SUBSHELL = 2
 };
+
+typedef struct
+{
+  ExecutionContextType type;
+} ExecutionContext;
 
 #endif
