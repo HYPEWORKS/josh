@@ -11,144 +11,157 @@
 #include "BuiltinHandler.hpp"
 #include "History.hpp"
 
-REPL *REPL::__instance = nullptr;
+REPL* REPL::__instance = nullptr;
 
 REPL::REPL()
 {
-  this->running = false;
+	this->running = false;
 
-  if (!History::getInstance()->init())
-  {
-    // if we fail to create history -- then what?
+	if (!History::getInstance()->init())
+	{
+		// if we fail to create history -- then what?
 
-    throw std::exception();
-  }
+		throw std::exception();
+	}
+
+	this->exitCode = 0;
 }
 
-REPL *REPL::getInstance()
+REPL* REPL::getInstance()
 {
-  if (REPL::__instance == nullptr)
-  {
-    REPL::__instance = new REPL();
-  }
+	if (REPL::__instance == nullptr)
+	{
+		REPL::__instance = new REPL();
+	}
 
-  return REPL::__instance;
+	return REPL::__instance;
 }
 
-void REPL::startREPL()
+REPL* REPL::peekInstance()
 {
-  this->running = true;
+	return REPL::__instance;
+}
 
-  this->loop();
+int REPL::startREPL()
+{
+	this->running = true;
+
+	this->loop();
+
+	return this->exitCode;
 }
 
 // trim from start (in place)
-static inline void ltrim(std::string &s)
+static inline void ltrim(std::string& s)
 {
-  s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
-            return !std::isspace(ch);
-          }));
+	s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](int ch) {
+		return !std::isspace(ch);
+		}
+	));
 }
 
 // trim from end (in place)
-static inline void rtrim(std::string &s)
+static inline void rtrim(std::string& s)
 {
-  s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
-            return !std::isspace(ch);
-          }).base(),
-          s.end());
+	s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+		return !std::isspace(ch);
+		}
+	).base(), s.end());
 }
 
 // TODO: Ignore extra whitespace if wrapped in string ' "
-void remove_extra_whitespaces(const std::string &input, std::string &output)
+void remove_extra_whitespaces(const std::string& input, std::string& output)
 {
-  output.clear(); // unless you want to add at the end of existing sring...
-  std::unique_copy(input.begin(), input.end(), std::back_insert_iterator<std::string>(output),
-                   [](char a, char b) { return isspace(a) && isspace(b); });
+	output.clear(); // unless you want to add at the end of existing sring...
+	std::unique_copy(input.begin(), input.end(), std::back_insert_iterator<std::string>(output),
+		[](char a, char b) {
+			return isspace(a) && isspace(b);
+		}
+	);
 }
 
 void REPL::loop()
 {
-  while (this->running)
-  {
-    std::string line;
+	while (this->running)
+	{
+		std::string line;
 
-    std::cout << std::endl
-              << "$ ";
-    std::getline(std::cin, line);
+		std::cout << std::endl
+			<< "$ ";
+		std::getline(std::cin, line);
 
-    // TEMPORARY CODE UNTIL WE RE-IMPLEMENT READLINE
-    std::string tempLine;
-    ltrim(line);
-    rtrim(line);
-    remove_extra_whitespaces(line, tempLine);
-    line = tempLine;
+		// TEMPORARY CODE UNTIL WE RE-IMPLEMENT READLINE
+		std::string tempLine;
+		ltrim(line);
+		rtrim(line);
+		remove_extra_whitespaces(line, tempLine);
+		line = tempLine;
 
-    // If blank line, just continue....
-    if (line == "")
-    {
-      continue;
-    }
+		// If blank line, just continue....
+		if (line == "")
+		{
+			continue;
+		}
 
-    // Put into history.
-    History::getInstance()->emplace(line);
+		// Put into history.
+		History::getInstance()->emplace(line);
 
-    std::string cmd;
-    std::vector<std::string> arguments;
+		std::string cmd;
+		std::vector<std::string> arguments;
 
-    // THIS CODE IS BAD BECAUSE IT ASSUMES THAT WE'RE NOT RUNNING SOMETHING VIA ./ OR SOMETHING ELSE
+		// THIS CODE IS BAD BECAUSE IT ASSUMES THAT WE'RE NOT RUNNING SOMETHING VIA ./ OR SOMETHING ELSE
 
-    bool firstSegment = true;
-    size_t startPos = 0;
-    size_t endPos = 0;
-    for (size_t i = 0; i < line.size(); ++i)
-    {
-      if (isspace(line[i]) || i == line.size() - 1)
-      {
-        if (i == line.size() - 1)
-        {
-          endPos = line.size();
-        }
-        else
-        {
-          endPos = i;
-        }
+		bool firstSegment = true;
+		size_t startPos = 0;
+		size_t endPos = 0;
+		for (size_t i = 0; i < line.size(); ++i)
+		{
+			if (isspace(line[i]) || i == line.size() - 1)
+			{
+				if (i == line.size() - 1)
+				{
+					endPos = line.size();
+				}
+				else
+				{
+					endPos = i;
+				}
 
-        auto str = line.substr(startPos, endPos);
+				auto str = line.substr(startPos, endPos);
 
-        startPos = i + 1;
-        if (!firstSegment)
-        {
-          arguments.push_back(str);
-        }
-        else
-        {
-          cmd = str;
-          firstSegment = false;
-        }
-      }
-    }
+				startPos = i + 1;
+				if (!firstSegment)
+				{
+					arguments.push_back(str);
+				}
+				else
+				{
+					cmd = str;
+					firstSegment = false;
+				}
+			}
+		}
 
-    auto executionContext = ExecutionContext();
-    executionContext.type = ExecutionContextType::REPL;
+		auto executionContext = ExecutionContext();
+		executionContext.type = ExecutionContextType::REPL;
 
-    // TODO: Parse command string first before doing this.
-    auto builtinCmd = BuiltinHandler::getInstance()->lookupCommand(cmd);
-    if (!builtinCmd)
-    {
-      // TODO: If not found in builtins, it may be in /bin; /usr/bin etc. so call out to the PATH or something like that
-      std::cout << "Command not found -> " << cmd << std::endl;
-      continue;
-    }
-    else
-    {
-      builtinCmd->commandInvocation(arguments, executionContext);
-    }
-  }
+		// TODO: Parse command string first before doing this.
+		auto builtinCmd = BuiltinHandler::getInstance()->lookupCommand(cmd);
+		if (!builtinCmd)
+		{
+			// TODO: If not found in builtins, it may be in /bin; /usr/bin etc. so call out to the PATH or something like that
+			std::cout << "Command not found -> " << cmd << std::endl;
+			continue;
+		}
+		else
+		{
+			builtinCmd->commandInvocation(arguments, executionContext);
+		}
+	}
 }
 
-int REPL::endREPL()
+void REPL::endREPL(int exitCodeOverride)
 {
-  this->running = false;
-  return 0;
+	this->running = false;
+	this->exitCode = exitCodeOverride;
 }

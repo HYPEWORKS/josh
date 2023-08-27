@@ -2,19 +2,21 @@
 class REPL
 {
 private:
-  static REPL *__instance;
-  REPL();
+	static REPL* __instance;
+	REPL();
 
-  bool running;
+	bool running;
+	int exitCode;
 
-  void read();
-  void execute();
-  void print();
-  void loop();
+	void read();
+	void execute();
+	void print();
+	void loop();
 
 public:
-  static REPL *getInstance();
+	static REPL* getInstance();
+	static REPL* peekInstance();
 
-  void startREPL();
-  int endREPL();
+	int startREPL();
+	void endREPL(int exitCodeOverride = 0);
 };
