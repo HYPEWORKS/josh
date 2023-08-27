@@ -23,7 +23,7 @@ public:
 
   void init();
 
-  IBuiltin *lookupCommand(std::string cmd);
+  IBuiltin *lookupCommand(std::string cmd) const;
   std::vector<std::string> getListOfCommands() const;
 };
 

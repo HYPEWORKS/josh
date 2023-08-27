@@ -62,18 +62,19 @@ void BuiltinHandler::init()
   this->loadBuiltins();
 }
 
-IBuiltin *BuiltinHandler::lookupCommand(std::string cmd)
+IBuiltin *BuiltinHandler::lookupCommand(std::string cmd) const
 {
-  size_t count = this->builtinsMap.count(cmd);
+    auto it = this->builtinsMap.find(cmd);
 
-  if (count == 0)
-  {
-    return nullptr;
-  }
-  else
-  {
-    return this->builtinsMap[cmd];
-  }
+    if (it != this->builtinsMap.end())
+    {
+        return it->second;
+    }
+    else
+    {
+        return nullptr;
+    }
+
 }
 
 std::vector<std::string> BuiltinHandler::getListOfCommands() const
