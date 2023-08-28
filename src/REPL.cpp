@@ -86,8 +86,8 @@ void REPL::loop()
 	{
 		std::string line;
 
-		std::cout << std::endl
-			<< "$ ";
+		std::cout << "$ ";
+
 		std::getline(std::cin, line);
 
 		// TEMPORARY CODE UNTIL WE RE-IMPLEMENT READLINE
@@ -158,6 +158,8 @@ void REPL::loop()
 			builtinCmd->commandInvocation(arguments, executionContext);
 		}
 	}
+
+	std::cout << std::endl;
 }
 
 void REPL::endREPL(int exitCodeOverride)
