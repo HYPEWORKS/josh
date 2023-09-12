@@ -7,16 +7,16 @@
 class History
 {
 private:
-  static History *__instance;
-  std::string file;
-  History();
+	static History* __instance;
+	std::string file;
+	History();
 
 public:
-  static History *getInstance();
+	static History* getInstance();
 
-  bool init();
+	bool init();
 
-  void emplace(std::string line);
+	void emplace(std::string line);
 };
 
 #endif

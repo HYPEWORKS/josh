@@ -10,21 +10,21 @@
 class BuiltinHandler
 {
 private:
-  static BuiltinHandler *__instance;
-  std::map<std::string, IBuiltin *> builtinsMap;
+	static BuiltinHandler* __instance;
+	std::map<std::string, IBuiltin*> builtinsMap;
 
-  BuiltinHandler();
-  ~BuiltinHandler();
-  void loadBuiltin(std::string cmd, IBuiltin *impl);
-  void loadBuiltins();
+	BuiltinHandler();
+	~BuiltinHandler();
+	void loadBuiltin(std::string cmd, IBuiltin* impl);
+	void loadBuiltins();
 
 public:
-  static BuiltinHandler *getInstance();
+	static BuiltinHandler* getInstance();
 
-  void init();
+	void init();
 
-  IBuiltin *lookupCommand(std::string cmd) const;
-  std::vector<std::string> getListOfCommands() const;
+	IBuiltin* lookupCommand(std::string cmd) const;
+	std::vector<std::string> getListOfCommands() const;
 };
 
 #endif

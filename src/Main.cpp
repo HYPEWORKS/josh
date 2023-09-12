@@ -3,9 +3,11 @@
 #include "BuiltinHandler.hpp"
 #include "REPL.hpp"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-  BuiltinHandler::getInstance()->init();
+	// TODO: Parse command line arguments.
 
-  return REPL::getInstance()->startREPL();
+	BuiltinHandler::getInstance()->init();
+
+	return REPL::getInstance()->startREPL();
 }

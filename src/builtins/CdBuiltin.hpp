@@ -6,9 +6,9 @@
 class CdBuiltin : public IBuiltin
 {
 public:
-  void registerCommand();
-  void deregisterCommand();
-  int commandInvocation(std::vector<std::string> arguments, ExecutionContext ctx);
+	void registerCommand();
+	void deregisterCommand();
+	int commandInvocation(std::vector<std::string> arguments, ExecutionContext ctx);
 };
 
 #endif
